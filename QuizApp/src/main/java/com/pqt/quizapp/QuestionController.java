@@ -4,9 +4,21 @@
  */
 package com.pqt.quizapp;
 
+import com.pqt.pojo.Category;
+import com.pqt.services.CategoryServices;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 
 /**
  * FXML Controller class
@@ -14,13 +26,20 @@ import javafx.fxml.Initializable;
  * @author admin
  */
 public class QuestionController implements Initializable {
-
+    @FXML private ComboBox<Category> cbCates;
+    private static CategoryServices cateService = new CategoryServices();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            this.cbCates.setItems(FXCollections.observableList(cateService.getCates()));
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }    
+    
     
 }
