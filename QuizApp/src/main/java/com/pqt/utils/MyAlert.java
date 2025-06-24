@@ -9,9 +9,6 @@ import javafx.scene.control.Alert;
 public class MyAlert {
    private static MyAlert instance;
    
-   public static MyAlert Instance
-           ;
-   
    private final Alert alert;
    
    private MyAlert(){
