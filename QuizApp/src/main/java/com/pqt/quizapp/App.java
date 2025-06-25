@@ -38,7 +38,7 @@ public class App extends Application {
 
     @Override
     public void stop() throws Exception {
-        super.stop(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        super.stop();  
         
         JdbcConnector.getInstance().Close();
     }
