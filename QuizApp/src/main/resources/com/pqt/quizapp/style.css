@@ -22,6 +22,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-stroke-width: 3;
 }
 
+.Input {
+    -fx-pref-width: 300;
+    -fx-padding: 8;
+}
+
 .Button {
     -fx-background-color: darkblue;
     -fx-text-fill: white;

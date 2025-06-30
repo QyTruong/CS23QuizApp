@@ -8,7 +8,7 @@ import com.pqt.quizapp.App;
 
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
  */
 public class DefaultThemeFactory implements ThemeFactory{
 
@@ -16,4 +16,5 @@ public class DefaultThemeFactory implements ThemeFactory{
     public String getStyleSheet() {
         return App.class.getResource("style.css").toExternalForm();
     }
+
 }

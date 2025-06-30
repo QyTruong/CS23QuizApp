@@ -6,9 +6,31 @@ package com.pqt.utils.theme;
 
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
+ * 
+ * 
  */
 public enum Theme {
-    DEFAULT, DARK, LIGHT;
+    DEFAULT {
+        @Override
+        public void updateTheme() {
+            ThemeManager.setThemeFactory(new DefaultThemeFactory());
+        }
+    },
+    
+    LIGHT {
+        @Override
+        public void updateTheme() {
+            ThemeManager.setThemeFactory(new LightThemeFactory());
+        }
+    },
+    
+    DARK {
+        @Override
+        public void updateTheme() {
+            ThemeManager.setThemeFactory(new DarkThemeFactory());
+        }
+    };
+    
+    public abstract void updateTheme();
 }
-

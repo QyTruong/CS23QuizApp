@@ -5,6 +5,7 @@
 package com.pqt.utils;
 
 import com.pqt.quizapp.App;
+import com.pqt.utils.theme.ThemeManager;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,7 +24,6 @@ public class MyStage {
     
     private MyStage(){
         stage = new Stage();
-        
         stage.setTitle("Quiz app");
     }
     
@@ -39,8 +39,9 @@ public class MyStage {
         else
             scene.setRoot(new FXMLLoader(App.class.getResource(fmxl)).load());
         
-        this.stage.setScene(scene);
+        ThemeManager.applyTheme(scene);
         
+        this.stage.setScene(scene);
         this.stage.show();
     }
 }

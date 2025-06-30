@@ -8,10 +8,10 @@ import com.pqt.quizapp.App;
 
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
  */
 public class DarkThemeFactory implements ThemeFactory{
-
+    
     @Override
     public String getStyleSheet() {
         return App.class.getResource("dark.css").toExternalForm();

@@ -3,6 +3,7 @@ package com.pqt.quizapp;
 import com.pqt.utils.MyAlert;
 import com.pqt.utils.MyStage;
 import com.pqt.utils.theme.Theme;
+import com.pqt.utils.theme.ThemeManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,25 +19,17 @@ import javafx.stage.Stage;
 
 
 public class PrimaryController implements Initializable{
-    @FXML private ComboBox<Theme> cbTheme;
+    @FXML private ComboBox<Theme> cbThemes;
     
-    public void HandleTheme(ActionEvent event){
-        switch (this.cbTheme.getSelectionModel().getSelectedItem()){
-            case DARK:
-                this.cbTheme.getScene().getRoot().getStylesheets().clear();
-                this.cbTheme.getScene().getRoot().getStylesheets().add(App.class.getResource("dark.css").toExternalForm());
-                break;
-            case LIGHT:
-                this.cbTheme.getScene().getRoot().getStylesheets().clear();
-                this.cbTheme.getScene().getRoot().getStylesheets().add(App.class.getResource("light.css").toExternalForm());
-                break;
-            case DEFAULT:
-                this.cbTheme.getScene().getRoot().getStylesheets().clear();
-                this.cbTheme.getScene().getRoot().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
-                break;
-        }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        this.cbThemes.setItems(FXCollections.observableArrayList(Theme.values()));
     }
     
+    public void HandleTheme(ActionEvent event){
+        this.cbThemes.getSelectionModel().getSelectedItem().updateTheme();
+        ThemeManager.applyTheme(this.cbThemes.getScene());
+    }
     
     public void HandleQuizManagement(ActionEvent event) throws IOException{
         MyStage.getInstance().showStage("question.fxml");
@@ -53,11 +46,6 @@ public class PrimaryController implements Initializable{
     public void HandleLoginManagement(){
         MyAlert.GetInstance().ShowMessage("Login: comming soon....");
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        this.cbTheme.setItems(FXCollections.observableArrayList(Theme.values()));
-    }
-    
+
 }
 

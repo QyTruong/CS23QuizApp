@@ -4,8 +4,21 @@
  */
 package com.pqt.utils.theme;
 
+import javafx.scene.Scene;
+
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
  */
-
+public class ThemeManager {
+    private static ThemeFactory themeFactory = new DefaultThemeFactory();
+    
+    public static void setThemeFactory(ThemeFactory f){
+        themeFactory = f;
+    }
+   
+    public static void applyTheme(Scene scene){
+        scene.getRoot().getStylesheets().clear();
+        scene.getRoot().getStylesheets().add(themeFactory.getStyleSheet());
+    }
+}

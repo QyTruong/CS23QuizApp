@@ -4,7 +4,7 @@
  */
 package com.pqt.services;
 
-import com.pqt.pojo.Category;
+import com.pqt.pojo.Level;
 import com.pqt.utils.JdbcConnector;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,21 +17,19 @@ import java.util.List;
  *
  * @author PHAM QUY TRUONG
  */
-public class CategoryServices {
-    public List<Category> getCates() throws SQLException{
+public class LevelServices {
+    public List<Level> getLevels() throws SQLException{
         Connection conn = JdbcConnector.getInstance().Connect();
         
         Statement stm = conn.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT * FROM category");
-
-        List<Category> cates = new ArrayList<>();
-
-        while (rs.next()){  
-            Category c = new Category(rs.getInt("id"), rs.getString("name"));
-            cates.add(c);
+        ResultSet rs = stm.executeQuery("SELECT * FROM level");
+        
+        List<Level> levels = new ArrayList<>();
+        
+        while (rs.next()){
+            Level l = new Level(rs.getInt("id"), rs.getString("name"), rs.getString("note"));
+            levels.add(l);
         }
-            
-        return cates;
+        return levels;
     }
-            
 }

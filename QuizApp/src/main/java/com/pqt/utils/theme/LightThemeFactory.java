@@ -8,12 +8,13 @@ import com.pqt.quizapp.App;
 
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
  */
-public class LightThemeFactory implements ThemeFactory {
-
+public class LightThemeFactory implements ThemeFactory{
+    
     @Override
     public String getStyleSheet() {
         return App.class.getResource("light.css").toExternalForm();
     }
+    
 }

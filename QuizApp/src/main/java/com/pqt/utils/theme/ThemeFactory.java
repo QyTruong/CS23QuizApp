@@ -6,8 +6,8 @@ package com.pqt.utils.theme;
 
 /**
  *
- * @author admin
+ * @author PHAM QUY TRUONG
  */
 public interface ThemeFactory {
-    public String getStyleSheet();
+    String getStyleSheet();
 }
