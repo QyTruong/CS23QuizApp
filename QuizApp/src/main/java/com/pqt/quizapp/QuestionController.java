@@ -20,16 +20,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -45,6 +54,8 @@ public class QuestionController implements Initializable {
     @FXML private ComboBox<Level> cbLevels;
     @FXML private TextArea txtContent;
     @FXML private ToggleGroup toggleChoice = new ToggleGroup();
+    @FXML private TableView<Question> tbQuestion;
+    @FXML private TextField txtSearch;
     
     // Services
     private static final CategoryServices cateService = new CategoryServices();
@@ -59,10 +70,20 @@ public class QuestionController implements Initializable {
         try {
             this.cbCates.setItems(FXCollections.observableList(cateService.getCates()));
             this.cbLevels.setItems(FXCollections.observableList(levelService.getLevels()));
+            this.loadColumn();
+            this.tbQuestion.setItems(FXCollections.observableList(questionService.getQuestion()));
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
+        this.txtSearch.textProperty().addListener((e) -> {
+            try {
+                this.tbQuestion.setItems(FXCollections.observableList(questionService.getQuestion(this.txtSearch.getText())));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
     }    
     
     public void handleMoreChoice(ActionEvent event){
@@ -107,6 +128,44 @@ public class QuestionController implements Initializable {
         catch (Exception ex){
             MyAlert.GetInstance().ShowMessage("Du lieu khong hop le");
         }
+    }
+    
+    private void loadColumn(){
+        TableColumn colId = new TableColumn("Id");
+        colId.setCellValueFactory(new PropertyValueFactory("id"));
+        
+        TableColumn colContent = new TableColumn("Content");
+        colContent.setCellValueFactory(new PropertyValueFactory("content"));
+        colContent.setPrefWidth(300);
+        
+        TableColumn colAction = new TableColumn();
+        colAction.setCellFactory((e) -> {
+            TableCell cell = new TableCell();
+            
+            Button btn = new Button("Xóa");
+            btn.setOnAction(event -> {
+                Optional<ButtonType> type = MyAlert.GetInstance().ShowMessage("Nếu xóa câu hỏi thì các lựa chọn cũng sẽ bị xóa theo. Bạn có chắc chắn không ?:D", Alert.AlertType.CONFIRMATION);
+                
+                if (type.isPresent() && type.get().equals(ButtonType.OK)){
+                    Question q = (Question)cell.getTableRow().getItem();
+                    try {
+                        if (questionService.deleteQuestion(q.getId()) == true)
+                            MyAlert.GetInstance().ShowMessage("Xóa thành công!");
+                        else
+                            MyAlert.GetInstance().ShowMessage("Xóa thất bại");
+                                    
+                    } catch (SQLException ex) {
+                        Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            
+            cell.setGraphic(btn);
+            
+            return cell;
+        });
+        
+        this.tbQuestion.getColumns().addAll(colId, colContent, colAction);
     }
     
 }

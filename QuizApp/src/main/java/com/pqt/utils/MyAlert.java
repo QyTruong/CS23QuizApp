@@ -4,7 +4,9 @@
  */
 package com.pqt.utils;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class MyAlert {
    private static MyAlert instance;
@@ -26,5 +28,9 @@ public class MyAlert {
        this.alert.showAndWait();
    }
    
-   
+   public Optional<ButtonType> ShowMessage(String msg, Alert.AlertType type){
+       this.alert.setAlertType(type);
+       this.alert.setContentText(msg);
+       return this.alert.showAndWait();
+   }
 }

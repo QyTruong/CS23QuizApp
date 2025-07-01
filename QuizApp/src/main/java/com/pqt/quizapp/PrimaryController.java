@@ -34,8 +34,8 @@ public class PrimaryController implements Initializable{
     public void HandleQuizManagement(ActionEvent event) throws IOException{
         MyStage.getInstance().showStage("question.fxml");
     }
-    public void HandlePraticeManagement(){
-        MyAlert.GetInstance().ShowMessage("Pratice: comming soon....");
+    public void HandlePraticeManagement() throws IOException{
+        MyStage.getInstance().showStage("practice.fxml");
     }
     public void HandleTestManagement(){
         MyAlert.GetInstance().ShowMessage("Test: comming soon....");

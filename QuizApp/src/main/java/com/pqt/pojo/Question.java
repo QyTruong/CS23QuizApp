@@ -4,6 +4,7 @@
  */
 package com.pqt.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +47,12 @@ public class Question {
             this.content = content;
             this.category = category;
             this.level = level;
+            this.choices = new ArrayList<>();
+        }
+        
+        public Builder(int id, String content){
+            this.id = id;
+            this.content = content;
         }
         
         public Builder addHint(String hint){
@@ -60,6 +67,11 @@ public class Question {
         
         public Builder addchoice(Choice choice){
             this.choices.add(choice);
+            return this;
+        }
+        
+        public Builder addAllChoices(List<Choice> choices){
+            this.choices.addAll(choices);
             return this;
         }
 
