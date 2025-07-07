@@ -11,6 +11,7 @@ import com.pqt.pojo.Question;
 import com.pqt.services.CategoryServices;
 import com.pqt.services.LevelServices;
 import com.pqt.services.QuestionServices;
+import com.pqt.utils.Configs;
 import com.pqt.utils.MyAlert;
 import java.net.URL;
 import java.sql.Connection;
@@ -57,10 +58,6 @@ public class QuestionController implements Initializable {
     @FXML private TableView<Question> tbQuestion;
     @FXML private TextField txtSearch;
     
-    // Services
-    private static final CategoryServices cateService = new CategoryServices();
-    private static final LevelServices levelService = new LevelServices();
-    private static final QuestionServices questionService = new QuestionServices();
     
     /**
      * Initializes the controller class.
@@ -68,10 +65,10 @@ public class QuestionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.cbCates.setItems(FXCollections.observableList(cateService.getCates()));
-            this.cbLevels.setItems(FXCollections.observableList(levelService.getLevels()));
+            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
+            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
             this.loadColumn();
-            this.tbQuestion.setItems(FXCollections.observableList(questionService.getQuestion()));
+            this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.getQuestion()));
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -79,7 +76,7 @@ public class QuestionController implements Initializable {
         
         this.txtSearch.textProperty().addListener((e) -> {
             try {
-                this.tbQuestion.setItems(FXCollections.observableList(questionService.getQuestion(this.txtSearch.getText())));
+                this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.getQuestion(this.txtSearch.getText())));
             } catch (SQLException ex) {
                 Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
@@ -118,7 +115,7 @@ public class QuestionController implements Initializable {
             }
             
             Question q = b.build();
-            questionService.addQuestion(q);
+            Configs.questionService.addQuestion(q);
             MyAlert.GetInstance().ShowMessage("Them cau hoi thanh cong");
 
         }
@@ -149,7 +146,7 @@ public class QuestionController implements Initializable {
                 if (type.isPresent() && type.get().equals(ButtonType.OK)){
                     Question q = (Question)cell.getTableRow().getItem();
                     try {
-                        if (questionService.deleteQuestion(q.getId()) == true)
+                        if (Configs.questionService.deleteQuestion(q.getId()) == true)
                             MyAlert.GetInstance().ShowMessage("Xóa thành công!");
                         else
                             MyAlert.GetInstance().ShowMessage("Xóa thất bại");
