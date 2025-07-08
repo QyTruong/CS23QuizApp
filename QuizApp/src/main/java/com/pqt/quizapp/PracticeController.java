@@ -4,7 +4,10 @@
  */
 package com.pqt.quizapp;
 
+import com.pqt.pojo.Category;
 import com.pqt.pojo.Question;
+import com.pqt.services.question.BaseQuestionServices;
+import com.pqt.services.question.LimitQuestionServicesDecorator;
 import com.pqt.utils.Configs;
 import com.pqt.utils.MyAlert;
 import java.net.URL;
@@ -12,10 +15,14 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -29,20 +36,35 @@ import javafx.scene.text.Text;
  */
 public class PracticeController implements Initializable{
     @FXML private TextField txtNum;
+    @FXML private ComboBox<Category> cbCates;
+    @FXML private ComboBox<Level> cbLevels;
+    
+    
     @FXML private Text txtContent;
-    @FXML private VBox vboxChoices;
+    @FXML private VBox vboxChoices;  
     @FXML private List<Question> questions;
     private int currentIndex = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+//        try {
+//            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
+//            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PracticeController.class.getName()).log(Level.SEVERE, null, ex);
+//        } 
     }
     
     public void start(ActionEvent event) throws SQLException{
         try {
+            
+            BaseQuestionServices s = Configs.questionService;
+            Category c = this.cbCates.getSelectionModel().getSelectedItem();
+            
             int num = Integer.parseInt(txtNum.getText());
-            questions = Configs.questionService.getQuestion(num);
+            //BaseQuestionServices s = new LimitQuestionServicesDecorator(num, Configs.questionService);
+            
+            questions = s.list();
             currentIndex = 0;
             loadQuestion();
             

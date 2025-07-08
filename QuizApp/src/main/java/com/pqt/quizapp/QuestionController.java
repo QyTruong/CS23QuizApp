@@ -10,7 +10,11 @@ import com.pqt.pojo.Level;
 import com.pqt.pojo.Question;
 import com.pqt.services.CategoryServices;
 import com.pqt.services.LevelServices;
-import com.pqt.services.QuestionServices;
+import com.pqt.services.question.BaseQuestionServices;
+import com.pqt.services.question.CategoryQuestionServicesDecorator;
+import com.pqt.services.question.KeywordQuestionServicesDecorator;
+import com.pqt.services.question.LevelQuestionServicesDecorator;
+import com.pqt.services.question.QuestionServices;
 import com.pqt.utils.Configs;
 import com.pqt.utils.MyAlert;
 import java.net.URL;
@@ -52,7 +56,9 @@ public class QuestionController implements Initializable {
     // UI
     @FXML private VBox vboxChoices;
     @FXML private ComboBox<Category> cbCates;
+    @FXML private ComboBox<Category> cbSearchCates;
     @FXML private ComboBox<Level> cbLevels;
+    @FXML private ComboBox<Level> cbSearchLevels;
     @FXML private TextArea txtContent;
     @FXML private ToggleGroup toggleChoice = new ToggleGroup();
     @FXML private TableView<Question> tbQuestion;
@@ -67,8 +73,11 @@ public class QuestionController implements Initializable {
         try {
             this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
             this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
+            this.cbSearchCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
+            this.cbSearchLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
+            
             this.loadColumn();
-            this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.getQuestion()));
+            this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.list()));
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -76,11 +85,32 @@ public class QuestionController implements Initializable {
         
         this.txtSearch.textProperty().addListener((e) -> {
             try {
-                this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.getQuestion(this.txtSearch.getText())));
+                BaseQuestionServices s = new KeywordQuestionServicesDecorator(this.txtSearch.getText(), Configs.questionService);
+                this.tbQuestion.setItems(FXCollections.observableList(s.list()));
             } catch (SQLException ex) {
                 Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         });
+        
+        this.cbSearchCates.getSelectionModel().selectedItemProperty().addListener((e) -> {
+            try {
+                BaseQuestionServices s = new CategoryQuestionServicesDecorator(this.cbSearchCates.getSelectionModel().getSelectedItem(), Configs.questionService);
+                this.tbQuestion.setItems(FXCollections.observableList(s.list()));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
+        
+        this.cbSearchLevels.getSelectionModel().selectedItemProperty().addListener((e) -> {
+            try {
+                BaseQuestionServices s = new LevelQuestionServicesDecorator(this.cbSearchLevels.getSelectionModel().getSelectedItem(), Configs.questionService);
+                this.tbQuestion.setItems(FXCollections.observableList(s.list()));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
+        
+        
     }    
     
     public void handleMoreChoice(ActionEvent event){
@@ -115,7 +145,7 @@ public class QuestionController implements Initializable {
             }
             
             Question q = b.build();
-            Configs.questionService.addQuestion(q);
+            Configs.uQService.addQuestion(q);
             MyAlert.GetInstance().ShowMessage("Them cau hoi thanh cong");
 
         }
@@ -146,7 +176,7 @@ public class QuestionController implements Initializable {
                 if (type.isPresent() && type.get().equals(ButtonType.OK)){
                     Question q = (Question)cell.getTableRow().getItem();
                     try {
-                        if (Configs.questionService.deleteQuestion(q.getId()) == true)
+                        if (Configs.uQService.deleteQuestion(q.getId()) == true)
                             MyAlert.GetInstance().ShowMessage("Xóa thành công!");
                         else
                             MyAlert.GetInstance().ShowMessage("Xóa thất bại");
