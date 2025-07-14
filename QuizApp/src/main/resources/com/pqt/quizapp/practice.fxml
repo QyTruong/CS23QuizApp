@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.PracticeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.PracticeController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Luyện tập" />
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Main">
@@ -20,6 +20,7 @@
       </HBox>
       <Text fx:id="txtContent" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <VBox fx:id="vboxChoices" prefHeight="200.0" prefWidth="100.0" />
+      <Text fx:id="txtResult" strokeType="OUTSIDE" strokeWidth="0.0" />
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Main">
          <children>
             <Button mnemonicParsing="false" onAction="#check" text="check" />

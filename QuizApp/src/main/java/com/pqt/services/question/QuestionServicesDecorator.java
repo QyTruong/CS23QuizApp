@@ -8,7 +8,7 @@ package com.pqt.services.question;
  *
  * @author admin
  */
-public abstract class QuestionServicesDecorator implements BaseQuestionServices{
+public abstract class QuestionServicesDecorator extends BaseQuestionServices{
     protected BaseQuestionServices decorator;
 
     public QuestionServicesDecorator(BaseQuestionServices decorator) {

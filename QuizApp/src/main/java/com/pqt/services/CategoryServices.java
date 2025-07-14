@@ -7,6 +7,7 @@ package com.pqt.services;
 import com.pqt.pojo.Category;
 import com.pqt.utils.JdbcConnector;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,21 +18,23 @@ import java.util.List;
  *
  * @author PHAM QUY TRUONG
  */
-public class CategoryServices {
-    public List<Category> getCates() throws SQLException{
-        Connection conn = JdbcConnector.getInstance().Connect();
-        
-        Statement stm = conn.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT * FROM category");
+public class CategoryServices extends BaseServices<Category>{
 
+    @Override
+    public PreparedStatement getStm(Connection conn) throws SQLException {
+        return conn.prepareCall("SELECT * FROM category");
+    }
+
+    @Override
+    public List<Category> getResults(ResultSet rs) throws SQLException {
         List<Category> cates = new ArrayList<>();
-
-        while (rs.next()){  
-            Category c = new Category(rs.getInt("id"), rs.getString("name"));
-            cates.add(c);
+        while (rs.next()){
+            Category cate = new Category(rs.getInt("id"), rs.getString("name"));
+            cates.add(cate);
         }
-            
+        
         return cates;
     }
+    
             
 }

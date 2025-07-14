@@ -5,8 +5,12 @@
 package com.pqt.quizapp;
 
 import com.pqt.pojo.Category;
+import com.pqt.pojo.Level;
 import com.pqt.pojo.Question;
+import com.pqt.services.FlyweightFactory;
 import com.pqt.services.question.BaseQuestionServices;
+import com.pqt.services.question.CategoryQuestionServicesDecorator;
+import com.pqt.services.question.LevelQuestionServicesDecorator;
 import com.pqt.services.question.LimitQuestionServicesDecorator;
 import com.pqt.utils.Configs;
 import com.pqt.utils.MyAlert;
@@ -15,7 +19,6 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -38,35 +41,48 @@ public class PracticeController implements Initializable{
     @FXML private TextField txtNum;
     @FXML private ComboBox<Category> cbCates;
     @FXML private ComboBox<Level> cbLevels;
-    
-    
+    @FXML private Text txtResult;
     @FXML private Text txtContent;
     @FXML private VBox vboxChoices;  
-    @FXML private List<Question> questions;
+    private List<Question> questions;
     private int currentIndex = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        try {
-//            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
-//            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
-//        } catch (SQLException ex) {
-//            Logger.getLogger(PracticeController.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
+        try {
+            this.cbCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbLevels.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
+        } catch (SQLException ex) {
+            Logger.getLogger(PracticeController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
     }
     
     public void start(ActionEvent event) throws SQLException{
         try {
-            
+            int num = Integer.parseInt(txtNum.getText());  
             BaseQuestionServices s = Configs.questionService;
-            Category c = this.cbCates.getSelectionModel().getSelectedItem();
             
-            int num = Integer.parseInt(txtNum.getText());
-            //BaseQuestionServices s = new LimitQuestionServicesDecorator(num, Configs.questionService);
+            Category c = this.cbCates.getSelectionModel().getSelectedItem();
+            if (c != null){
+                s = new CategoryQuestionServicesDecorator(c, s);
+            }      
+            
+            Level lvl = this.cbLevels.getSelectionModel().getSelectedItem();
+            if (lvl != null){
+                s = new LevelQuestionServicesDecorator(lvl, s);
+            }
+            
+            s = new LimitQuestionServicesDecorator(num, s);
             
             questions = s.list();
-            currentIndex = 0;
-            loadQuestion();
+            
+            if (!questions.isEmpty()){
+                currentIndex = 0;
+                loadQuestion();
+            }
+            else {
+               MyAlert.GetInstance().ShowMessage("Khong co cau hoi phu hop", Alert.AlertType.WARNING);
+            }
             
         } catch(InputMismatchException ex) {
             MyAlert.GetInstance().ShowMessage("Dữ liệu không hợp lệ", Alert.AlertType.WARNING);
@@ -76,22 +92,36 @@ public class PracticeController implements Initializable{
     }
             
     public void check(ActionEvent event){
-        Question q = this.questions.get(this.currentIndex);
+        if (this.currentIndex >= 0){
+            this.txtResult.getStyleClass().clear();
+            
+            Question q = this.questions.get(this.currentIndex);
         
-        for (int i = 0; i < q.getChoices().size(); i++){
-            if (q.getChoices().get(i).isCorrect()){
-                HBox h = (HBox) this.vboxChoices.getChildren().get(i);
-                if (((RadioButton)h.getChildren().get(0)).isSelected())
-                    MyAlert.GetInstance().ShowMessage("CORRECT, GUD JOB !!!!");
-                else
-                    MyAlert.GetInstance().ShowMessage("INCORRECT, Try harder next time");
+            for (int i = 0; i < q.getChoices().size(); i++){
+                if (q.getChoices().get(i).isCorrect()){
+                    HBox h = (HBox) this.vboxChoices.getChildren().get(i);
+                    h.getStyleClass().add("space");
+                    if (((RadioButton)h.getChildren().get(0)).isSelected()){
+                        this.txtResult.setText("CORRECT, GUD JOB !!!!");
+                        this.txtResult.getStyleClass().add("correct");
+                    }
+                    else{
+                        this.txtResult.setText("INCORRECT, Try harder next time");
+                        this.txtResult.getStyleClass().add("wrong");
+                    }
+                    
+                    break;
+                }
             }
         }
     }
     
     public void next(ActionEvent event){
-        currentIndex++;
-        loadQuestion();
+        if (this.currentIndex < this.questions.size()-1){
+            this.txtResult.setText("");
+            currentIndex++;
+            loadQuestion();
+        }
     }
     
     public void loadQuestion(){

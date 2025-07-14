@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author PHAM QUY TRUONG
  */
-public class QuestionServices implements BaseQuestionServices{
+public class QuestionServices extends BaseQuestionServices{
     
     @Override
     public String getSQL(List<Object> params) {

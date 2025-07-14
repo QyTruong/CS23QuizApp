@@ -9,6 +9,7 @@ import com.pqt.pojo.Choice;
 import com.pqt.pojo.Level;
 import com.pqt.pojo.Question;
 import com.pqt.services.CategoryServices;
+import com.pqt.services.FlyweightFactory;
 import com.pqt.services.LevelServices;
 import com.pqt.services.question.BaseQuestionServices;
 import com.pqt.services.question.CategoryQuestionServicesDecorator;
@@ -71,10 +72,10 @@ public class QuestionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
-            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
-            this.cbSearchCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
-            this.cbSearchLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
+            this.cbCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbLevels.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
+            this.cbSearchCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbSearchLevels.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
             
             this.loadColumn();
             this.tbQuestion.setItems(FXCollections.observableList(Configs.questionService.list()));

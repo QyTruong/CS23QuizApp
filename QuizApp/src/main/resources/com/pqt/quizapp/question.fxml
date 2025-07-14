@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.QuestionController">
+<ScrollPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.QuestionController">
    <content>
-      <VBox styleClass="Main">
+      <VBox prefHeight="641.0" prefWidth="720.0" styleClass="Main">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Quản lý câu hỏi" textAlignment="CENTER" wrappingWidth="501.07421875" />
             <TextArea fx:id="txtContent" prefHeight="200.0" prefWidth="200.0" />
@@ -53,7 +53,7 @@
                   <ComboBox fx:id="cbSearchLevels" prefWidth="150.0" styleClass="Input" />
                </children>
             </HBox>
-            <TableView fx:id="tbQuestion" prefHeight="200.0" prefWidth="200.0" />
+            <TableView fx:id="tbQuestion" prefHeight="251.0" prefWidth="700.0" />
          </children>
       </VBox>
    </content>

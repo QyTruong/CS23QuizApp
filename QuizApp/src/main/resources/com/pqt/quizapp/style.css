@@ -9,9 +9,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .Main {
     -fx-background-color: lightblue;
-    -fx-alignment: TOP_CENTER;
-    -fx-padding: 5;
-    -fx-spacing: 5;
+    -fx-alignment: CENTER;
+    -fx-padding: 10;
+    -fx-spacing: 8;
 }
 
 .Subject {
