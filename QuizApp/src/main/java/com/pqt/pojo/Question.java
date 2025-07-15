@@ -79,6 +79,11 @@ public class Question {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.content;
+    }
+    
     public int getId() {
         return id;
     }

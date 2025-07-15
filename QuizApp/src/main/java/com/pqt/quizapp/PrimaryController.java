@@ -37,8 +37,8 @@ public class PrimaryController implements Initializable{
     public void HandlePraticeManagement() throws IOException{
         MyStage.getInstance().showStage("practice.fxml");
     }
-    public void HandleTestManagement(){
-        MyAlert.GetInstance().ShowMessage("Test: comming soon....");
+    public void HandleTestManagement() throws IOException{
+        MyStage.getInstance().showStage("exam.fxml");
     }
     public void HandleRegisterManagement(){
         MyAlert.GetInstance().ShowMessage("Register: comming soon....");
