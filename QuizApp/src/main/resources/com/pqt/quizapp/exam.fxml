@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.ExamController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.ExamController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Bài Thi" />
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Main">
@@ -23,7 +22,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Main">
          <children>
             <Button mnemonicParsing="false" onAction="#handleFinish" styleClass="Button" text="Hoàn thành" />
-            <Button mnemonicParsing="false" style="-fx-background-color: red;" styleClass="Button" text="Lưu đề thi" />
+            <Button mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: red;" styleClass="Button" text="Lưu đề thi" />
          </children>
       </HBox>
    </children>

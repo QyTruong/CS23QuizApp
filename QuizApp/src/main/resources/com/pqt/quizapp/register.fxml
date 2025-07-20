@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pqt.quizapp.RegisterController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Đăng ký" />
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Main">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="337.0" styleClass="Main">
+               <children>
+                  <TextField fx:id="txtUsername" promptText="Tài khoản. . ." styleClass="Input" />
+                  <TextField fx:id="txtPassword" promptText="Mật khẩu. . ." styleClass="Input" />
+                  <TextField fx:id="txtPasswordConfirm" promptText="Xác nhận lại mật khẩu. . ." styleClass="Input" />
+                  <TextField fx:id="txtPhone" promptText="Số điện thoại. . ." styleClass="Input" />
+                  <TextField fx:id="txtEmail" promptText="Email. . ." styleClass="Input" />
+               </children>
+            </VBox>
+            <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#handleRegister" styleClass="Button" text="Xác nhận" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

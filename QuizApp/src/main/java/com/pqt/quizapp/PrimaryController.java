@@ -1,5 +1,6 @@
 package com.pqt.quizapp;
 
+import com.pqt.utils.LoginSession;
 import com.pqt.utils.MyAlert;
 import com.pqt.utils.MyStage;
 import com.pqt.utils.theme.Theme;
@@ -13,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
@@ -32,19 +34,28 @@ public class PrimaryController implements Initializable{
     }
     
     public void HandleQuizManagement(ActionEvent event) throws IOException{
-        MyStage.getInstance().showStage("question.fxml");
+        if (LoginSession.isLoggedIn())
+            MyStage.getInstance().showStage("question.fxml");
+        else
+            MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập", Alert.AlertType.WARNING);
     }
     public void HandlePraticeManagement() throws IOException{
-        MyStage.getInstance().showStage("practice.fxml");
+        if (LoginSession.isLoggedIn())
+            MyStage.getInstance().showStage("practice.fxml");
+        else
+            MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập", Alert.AlertType.WARNING);
     }
     public void HandleTestManagement() throws IOException{
-        MyStage.getInstance().showStage("exam.fxml");
+        if (LoginSession.isLoggedIn())
+         MyStage.getInstance().showStage("exam.fxml");
+        else
+            MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập", Alert.AlertType.WARNING);
     }
-    public void HandleRegisterManagement(){
-        MyAlert.GetInstance().ShowMessage("Register: comming soon....");
+    public void HandleRegisterManagement() throws IOException{
+        MyStage.getInstance().showStage("register.fxml");
     }
-    public void HandleLoginManagement(){
-        MyAlert.GetInstance().ShowMessage("Login: comming soon....");
+    public void HandleLoginManagement() throws IOException{
+        MyStage.getInstance().showStage("login.fxml");
     }
 
 }

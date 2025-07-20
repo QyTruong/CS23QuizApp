@@ -44,4 +44,8 @@ public class MyStage {
         this.stage.setScene(scene);
         this.stage.show();
     }
+    
+    public void backRootScene() throws IOException{
+        scene.setRoot(new FXMLLoader(App.class.getResource("primary.fxml")).load());
+    }
 }

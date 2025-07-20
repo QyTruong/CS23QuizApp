@@ -16,12 +16,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -123,6 +127,24 @@ public class ExamController implements Initializable {
         }
         
         MyAlert.GetInstance().ShowMessage(String.format("Bạn đã làm đúng %d / %d câu", count, this.results.size()), Alert.AlertType.INFORMATION);
+    }
+    
+    public void handleSave(ActionEvent event){
+        if (questions == null || questions.isEmpty())
+            MyAlert.GetInstance().ShowMessage("Không có đề thi để lưu", Alert.AlertType.WARNING);
+        else {
+            Optional<ButtonType> type = MyAlert.GetInstance().ShowMessage("Bạn có chắc chắn muốn lưu đề thi ?", Alert.AlertType.CONFIRMATION);
+            
+            if (type.isPresent() && type.get().equals(ButtonType.OK)){
+                try {
+                    exServices.addExam(questions);
+                    MyAlert.GetInstance().ShowMessage("Đã lưu đề thi thành công !!!", Alert.AlertType.INFORMATION);
+                } catch (SQLException ex) {
+                    MyAlert.GetInstance().ShowMessage("Hệ thống đã xảy ra lỗi, Lý do: " + ex.getMessage(), Alert.AlertType.ERROR);
+                }
+                        
+            }
+        }
     }
     
 }

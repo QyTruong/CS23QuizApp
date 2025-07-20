@@ -6,6 +6,8 @@ package com.pqt.utils;
 
 import com.pqt.services.CategoryServices;
 import com.pqt.services.LevelServices;
+import com.pqt.services.LoginAccountServices;
+import com.pqt.services.UpdateAccountServices;
 import com.pqt.services.question.QuestionServices;
 import com.pqt.services.UpdateQuestionServices;
 import com.pqt.services.question.BaseQuestionServices;
@@ -19,6 +21,8 @@ public class Configs {
     public static final LevelServices levelService = new LevelServices();
     public static BaseQuestionServices questionService = new QuestionServices();
     public static UpdateQuestionServices uQService = new UpdateQuestionServices();
+    public static UpdateAccountServices uAService = new UpdateAccountServices();
+    public static LoginAccountServices lgService = new LoginAccountServices();
     public static final int NUMBER_OF_QUESTIONS = 10;
     
 }
