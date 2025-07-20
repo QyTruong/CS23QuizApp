@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.38, for macos14 (arm64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quizdb
 -- ------------------------------------------------------
--- Server version	8.0.27
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,33 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `account`
+--
+
+DROP TABLE IF EXISTS `account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `account` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account`
+--
+
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1,'truongne','huhu',NULL,NULL),(2,'truongne','haha','123456789','truong123@gmail.com'),(3,'truongne1','hihi','',''),(4,'','','',''),(5,'','','',''),(6,'','','',''),(7,'','','',''),(8,'truong321','','','');
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `category`
@@ -80,7 +107,7 @@ CREATE TABLE `exam` (
   `title` varchar(100) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +116,7 @@ CREATE TABLE `exam` (
 
 LOCK TABLES `exam` WRITE;
 /*!40000 ALTER TABLE `exam` DISABLE KEYS */;
-INSERT INTO `exam` VALUES (6,'Exam-2025-07-05','2025-07-05 00:00:00'),(7,'Exam-2025-07-05','2025-07-05 00:00:00'),(8,'Exam-2025-07-05T09:32:53.322161','2025-07-05 09:32:53');
+INSERT INTO `exam` VALUES (6,'Exam-2025-07-05','2025-07-05 00:00:00'),(7,'Exam-2025-07-05','2025-07-05 00:00:00'),(8,'Exam-2025-07-05T09:32:53.322161','2025-07-05 09:32:53'),(9,'Exam-2025-07-18T13:10:06.910769900','2025-07-18 13:10:07');
 /*!40000 ALTER TABLE `exam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +136,7 @@ CREATE TABLE `exam_question` (
   KEY `fk_question_idx` (`question_id`),
   CONSTRAINT `fk_exam` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`),
   CONSTRAINT `fk_question` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +145,7 @@ CREATE TABLE `exam_question` (
 
 LOCK TABLES `exam_question` WRITE;
 /*!40000 ALTER TABLE `exam_question` DISABLE KEYS */;
-INSERT INTO `exam_question` VALUES (1,6,19),(2,6,23),(3,6,30),(4,7,11),(5,7,18),(6,7,20),(7,7,34),(8,7,32),(9,8,20),(10,8,19),(11,8,14),(12,8,15),(13,8,38),(14,8,37),(15,8,26),(16,8,36),(17,8,44),(18,8,43);
+INSERT INTO `exam_question` VALUES (1,6,19),(2,6,23),(3,6,30),(4,7,11),(5,7,18),(6,7,20),(7,7,34),(8,7,32),(9,8,20),(10,8,19),(11,8,14),(12,8,15),(13,8,38),(14,8,37),(15,8,26),(16,8,36),(17,8,44),(18,8,43),(19,9,33),(20,9,10),(21,9,23),(22,9,28),(23,9,43),(24,9,44),(25,9,41);
 /*!40000 ALTER TABLE `exam_question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,4 +215,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-15  6:54:15
+-- Dump completed on 2025-07-20 21:12:03
