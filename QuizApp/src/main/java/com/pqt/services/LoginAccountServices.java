@@ -27,7 +27,7 @@ public class LoginAccountServices extends BaseServices<Account>{
     public List<Account> getResults(ResultSet rs) throws SQLException {
         List<Account> accounts = new ArrayList<>();
         while (rs.next()){
-            Account.Builder b = new Account.Builder(rs.getString("username"), rs.getString("password"));
+            Account.Builder b = new Account.Builder(rs.getString("username"), rs.getString("password"), rs.getString("role"));
             Account acc = b.build();
             accounts.add(acc);
         }

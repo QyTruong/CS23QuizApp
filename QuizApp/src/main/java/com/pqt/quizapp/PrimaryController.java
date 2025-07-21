@@ -1,5 +1,6 @@
 package com.pqt.quizapp;
 
+import com.pqt.services.authorization.Role;
 import com.pqt.utils.LoginSession;
 import com.pqt.utils.MyAlert;
 import com.pqt.utils.MyStage;
@@ -8,6 +9,8 @@ import com.pqt.utils.theme.ThemeManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,12 +36,17 @@ public class PrimaryController implements Initializable{
         ThemeManager.applyTheme(this.cbThemes.getScene());
     }
     
-    public void HandleQuizManagement(ActionEvent event) throws IOException{
-        if (LoginSession.isLoggedIn())
+    public void HandleQuizManagement(ActionEvent event) throws IOException {
+        if (LoginSession.isLoggedIn() && LoginSession.getInstance().getAccount().getRole().equals(Role.STUDENT.getRoleName())){
+            MyAlert.GetInstance().ShowMessage("Sinh viên không thể thực hiện chức năng này", Alert.AlertType.WARNING);
+            return;
+        }      
+        if (LoginSession.isLoggedIn() && LoginSession.getInstance().getAccount().getRole().equals(Role.TEACHER.getRoleName()))
             MyStage.getInstance().showStage("question.fxml");
-        else
+        else 
             MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập", Alert.AlertType.WARNING);
     }
+
     public void HandlePraticeManagement() throws IOException{
         if (LoginSession.isLoggedIn())
             MyStage.getInstance().showStage("practice.fxml");
@@ -47,16 +55,26 @@ public class PrimaryController implements Initializable{
     }
     public void HandleTestManagement() throws IOException{
         if (LoginSession.isLoggedIn())
-         MyStage.getInstance().showStage("exam.fxml");
+            MyStage.getInstance().showStage("exam.fxml");
         else
             MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập", Alert.AlertType.WARNING);
     }
     public void HandleRegisterManagement() throws IOException{
         MyStage.getInstance().showStage("register.fxml");
     }
+    
     public void HandleLoginManagement() throws IOException{
         MyStage.getInstance().showStage("login.fxml");
     }
-
+    
+    public void HandleLogoutManagement() {
+        if (LoginSession.getInstance() != null){
+            LoginSession.deleteSession();
+            MyAlert.GetInstance().ShowMessage(String.format("Đăng xuất tài khoản %s thành công", LoginSession.getInstance().getAccount().getUsername()), Alert.AlertType.CONFIRMATION);
+        }
+        else {
+            MyAlert.GetInstance().ShowMessage("Bạn chưa đăng nhập tài khoản", Alert.AlertType.WARNING);
+        }    
+    }
 }
 

@@ -14,6 +14,7 @@ public class Account {
     private String password;
     private String phone;
     private String email;
+    private String role;
 
     public Account(Builder b) {
         this.id = b.id;
@@ -21,6 +22,7 @@ public class Account {
         this.password = b.password;
         this.phone = b.phone;
         this.email = b.email;
+        this.role = b.role;
     }
     
     public static class Builder {
@@ -29,10 +31,12 @@ public class Account {
         private String password;
         private String phone;
         private String email;
+        private String role;
         
-        public Builder(String username, String password){
+        public Builder(String username, String password, String role){
             this.username = username;
             this.password = password;
+            this.role = role;
         }
         
         public Builder addPhone(String phone){
@@ -69,6 +73,10 @@ public class Account {
     public String getEmail() {
         return email;
     }
+
+    public String getRole() {
+        return role;
+    }
     
 
     public void setId(int id) {
@@ -89,6 +97,10 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     

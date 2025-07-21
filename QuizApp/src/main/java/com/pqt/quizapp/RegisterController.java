@@ -5,15 +5,21 @@
 package com.pqt.quizapp;
 
 import com.pqt.pojo.Account;
+import com.pqt.services.FlyweightFactory;
+import com.pqt.services.authorization.Role;
 import com.pqt.utils.Configs;
 import com.pqt.utils.MyAlert;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -27,6 +33,7 @@ public class RegisterController implements Initializable {
     @FXML private TextField txtPasswordConfirm;
     @FXML private TextField txtPhone;
     @FXML private TextField txtEmail;
+    @FXML private ComboBox<Role> cbRoles;
     @FXML private Button btnConfirm;
     
     /**
@@ -34,22 +41,30 @@ public class RegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        this.cbRoles.setItems(FXCollections.observableArrayList(Role.values()));
     }    
     
     public void handleRegister(){
         try {
-            if (this.txtUsername.getText().isEmpty() || this.txtPassword.getText().isEmpty()){
-                MyAlert.GetInstance().ShowMessage("Vui lòng nhập đầy đủ tài khoản và mật khẩu", Alert.AlertType.WARNING);
-                return;
-            }
-            
             if (!this.txtPassword.getText().equals(this.txtPasswordConfirm.getText())){
                 MyAlert.GetInstance().ShowMessage("Mật khẩu xác nhận không khớp với mật khẩu ban đầu", Alert.AlertType.INFORMATION);
                 return;
             }
             
-            Account.Builder b = new Account.Builder(this.txtUsername.getText(), this.txtPassword.getText());
+            if (this.txtUsername.getText().isEmpty() || this.txtPassword.getText().isEmpty() || this.cbRoles.getSelectionModel().isEmpty()){
+                MyAlert.GetInstance().ShowMessage("Vui lòng nhập đầy đủ tài khoản, mật khẩu và vai trò", Alert.AlertType.WARNING);
+                return;
+            }
+    
+            List<Account> accounts = FlyweightFactory.getData(Configs.lgService, "accounts");
+            for (var a : accounts){
+                if (a.getUsername().equals(this.txtUsername.getText())){
+                    MyAlert.GetInstance().ShowMessage("Tài khoản này đã tồn tại", Alert.AlertType.WARNING);
+                    return;
+                }         
+            }
+            
+            Account.Builder b = new Account.Builder(this.txtUsername.getText(), this.txtPassword.getText(), this.cbRoles.getSelectionModel().getSelectedItem().name());
             
             if (this.txtPhone != null)
                 b.addPhone(this.txtPhone.getText());
@@ -68,4 +83,5 @@ public class RegisterController implements Initializable {
             MyAlert.GetInstance().ShowMessage("Dữ liệu không hợp lệ", Alert.AlertType.WARNING);
         }
     }
+    
 }

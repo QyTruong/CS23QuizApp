@@ -14,6 +14,7 @@
       <Button layoutX="261.0" layoutY="99.0" mnemonicParsing="false" onAction="#HandleTestManagement" styleClass="Button" text="Thi" />
       <Button layoutX="261.0" layoutY="129.0" mnemonicParsing="false" onAction="#HandleRegisterManagement" styleClass="Button" text="Đăng ký" />
       <Button layoutX="261.0" layoutY="159.0" mnemonicParsing="false" onAction="#HandleLoginManagement" styleClass="Button" text="Đăng nhập" />
+      <Button mnemonicParsing="false" onAction="#HandleLogoutManagement" styleClass="Button" text="Đăng xuất" />
       <ComboBox fx:id="cbThemes" onAction="#HandleTheme" prefWidth="150.0" styleClass="Button" />
    </children>
    <stylesheets>

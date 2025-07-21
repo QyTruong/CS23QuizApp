@@ -22,12 +22,14 @@ public class UpdateAccountServices {
         
         conn.setAutoCommit(false);
         
-        String sql = "INSERT INTO account(username, password, phone, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO account(username, password, phone, email, role) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stm = conn.prepareCall(sql);
+        
         stm.setString(1, acc.getUsername());
         stm.setString(2, acc.getPassword());
         stm.setString(3, acc.getPhone());
         stm.setString(4, acc.getEmail());
+        stm.setString(5, acc.getRole());
         
         if(stm.executeUpdate() > 0)
             conn.commit();
